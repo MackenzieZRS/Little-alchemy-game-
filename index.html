@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forest Alchemist's Lab</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="lab-container">
+        <div class="background-layer">
+            <div class="background-image"></div>
+            <div class="background-overlay"></div>
+        </div>
+
+        <header>
+            <h1>Forest Alchemist's Lab</h1>
+            <p class="subtitle">Drag ingredients to the cauldron to brew your magic</p>
+        </header>
+
+        <main>
+            <div class="content-wrapper">
+                <div class="shelves-container">
+                    <div class="shelf-row">
+                        <div class="ingredients-list">
+                            <div class="ingredient" draggable="true" data-id="acorn-1">
+                                <div class="acorn-pot"><div class="acorn-cap"></div></div>
+                            </div>
+                            <div class="ingredient" draggable="true" data-id="stone-1">
+                                <div class="stone-creature"><div class="stone-moss"></div></div>
+                            </div>
+                            <div class="ingredient" draggable="true" data-id="mushroom-1">
+                                <div class="living-mushroom">
+                                    <div class="mushroom-spots"></div>
+                                    <div class="mushroom-stem"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="leaf-shelf"></div>
+                    </div>
+
+                    <div class="shelf-row">
+                        <div class="ingredients-list">
+                            <div class="ingredient" draggable="true" data-id="gourd-1">
+                                <div class="living-gourd">
+                                    <div class="gourd-eye left"></div>
+                                    <div class="gourd-eye right"></div>
+                                </div>
+                            </div>
+                            <div class="ingredient" draggable="true" data-id="stone-2">
+                                <div class="stone-creature"><div class="stone-moss"></div></div>
+                            </div>
+                            <div class="ingredient" draggable="true" data-id="acorn-2">
+                                <div class="acorn-pot"><div class="acorn-cap"></div></div>
+                            </div>
+                        </div>
+                        <div class="gnarled-root"></div>
+                    </div>
+                </div>
+
+                <div class="cauldron-area">
+                    <div class="cauldron-container">
+                        <div id="cauldron" class="cauldron">
+                            <div class="cauldron-rim">
+                                <div class="bubbling-concoction">
+                                    <div class="bubble" style="width:4px; height:4px; left:20%; top:2px;"></div>
+                                    <div class="bubble" style="width:6px; height:6px; left:50%; top:1px;"></div>
+                                    <div class="bubble" style="width:3px; height:3px; left:80%; top:4px;"></div>
+                                </div>
+                            </div>
+                            <div class="cauldron-leg left"></div>
+                            <div class="cauldron-leg right"></div>
+                            <div id="ingredient-count" class="ingredient-count">0</div>
+                        </div>
+                    </div>
+                    <div class="mossy-ground"></div>
+                </div>
+            </div>
+        </main>
+
+        <div class="grain-texture"></div>
+
+        <button id="brew-btn" class="brew-btn" disabled>
+            <span class="material-symbols-outlined">auto_fix_high</span>
+            BREW POTION
+        </button>
+
+        <div id="modal" class="modal-overlay">
+            <div class="modal-content">
+                <div class="modal-icon">
+                    <span class="material-symbols-outlined" style="font-size: 2rem; color: #1c1917;">auto_fix_high</span>
+                </div>
+                <h2 class="modal-title">Potion Brewed!</h2>
+                <div class="potion-box">
+                    <p id="potion-text" class="potion-text"></p>
+                </div>
+                <button id="reset-btn" class="reset-btn">
+                    <span class="material-symbols-outlined">refresh</span>
+                    Brew Another
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

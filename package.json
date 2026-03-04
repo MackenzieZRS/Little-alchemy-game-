@@ -1,0 +1,11 @@
+{
+  "name": "forest-alchemist-static",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "npx -y serve -p 3000 ."
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
