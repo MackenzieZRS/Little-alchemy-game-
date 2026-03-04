@@ -24,11 +24,100 @@ function initDragAndDrop() {
   ingredientsList.forEach(ing => {
     ing.addEventListener('dragstart', handleDragStart);
     ing.addEventListener('dragend', handleDragEnd);
+    
+    // Touch events
+    ing.addEventListener('touchstart', handleTouchStart, { passive: false });
+    ing.addEventListener('touchmove', handleTouchMove, { passive: false });
+    ing.addEventListener('touchend', handleTouchEnd);
   });
 
   cauldron.addEventListener('dragover', handleDragOver);
   cauldron.addEventListener('dragleave', handleDragLeave);
   cauldron.addEventListener('drop', handleDrop);
+}
+
+// Touch Handling State
+let touchProxy = null;
+let activeTouchIngredient = null;
+
+function handleTouchStart(e) {
+  if (isBrewing) return;
+  const ingredient = this;
+  const id = ingredient.dataset.id;
+  
+  // Prevent scrolling while dragging
+  e.preventDefault();
+  
+  activeTouchIngredient = INGREDIENTS_DATA.find(i => i.id === id);
+  if (!activeTouchIngredient || selectedIngredients.find(i => i.id === id)) return;
+
+  ingredient.classList.add('dragging');
+
+  // Create proxy
+  touchProxy = ingredient.cloneNode(true);
+  touchProxy.classList.add('touch-drag-proxy');
+  document.body.appendChild(touchProxy);
+  
+  updateTouchProxyPosition(e.touches[0]);
+}
+
+function handleTouchMove(e) {
+  if (!touchProxy) return;
+  e.preventDefault();
+  
+  const touch = e.touches[0];
+  updateTouchProxyPosition(touch);
+  
+  // Check if over cauldron
+  const cauldronRect = cauldron.getBoundingClientRect();
+  if (
+    touch.clientX >= cauldronRect.left &&
+    touch.clientX <= cauldronRect.right &&
+    touch.clientY >= cauldronRect.top &&
+    touch.clientY <= cauldronRect.bottom
+  ) {
+    cauldron.classList.add('drag-over');
+  } else {
+    cauldron.classList.remove('drag-over');
+  }
+}
+
+function handleTouchEnd(e) {
+  if (!touchProxy) return;
+  
+  const touch = e.changedTouches[0];
+  const cauldronRect = cauldron.getBoundingClientRect();
+  
+  cauldron.classList.remove('drag-over');
+  
+  if (
+    touch.clientX >= cauldronRect.left &&
+    touch.clientX <= cauldronRect.right &&
+    touch.clientY >= cauldronRect.top &&
+    touch.clientY <= cauldronRect.bottom
+  ) {
+    if (selectedIngredients.length < 3) {
+      selectedIngredients.push(activeTouchIngredient);
+      updateUI();
+      playSplashEffect();
+    }
+  }
+
+  // Cleanup
+  if (touchProxy) {
+    touchProxy.remove();
+    touchProxy = null;
+  }
+  
+  ingredientsList.forEach(ing => ing.classList.remove('dragging'));
+  activeTouchIngredient = null;
+}
+
+function updateTouchProxyPosition(touch) {
+  if (touchProxy) {
+    touchProxy.style.left = touch.clientX + 'px';
+    touchProxy.style.top = touch.clientY + 'px';
+  }
 }
 
 function handleDragStart(e) {
